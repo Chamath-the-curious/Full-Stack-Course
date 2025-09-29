@@ -15,11 +15,22 @@ const Button = (props) => {
 }
 
 const Feedback = (props) => {
+  const average = () => {
+    return (props.good - props.bad) / props.all
+  }
+
+  const percentage = () => {
+    return props.good / props.all * 100
+  }
+
   return (
     <div>
       <div>good {props.good}</div>
       <div>neutral {props.neutral}</div>
       <div>bad {props.bad}</div>
+      <div>all {props.all}</div>
+      <div>average {average()}</div>
+      <div>percentage {percentage()} % </div>
     </div>
   )
 }
@@ -28,6 +39,7 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const all = good + neutral + bad
 
   return (
     <div>
@@ -38,7 +50,7 @@ const App = () => {
         <Button onClick={() => setBad(bad + 1)} option={"bad"} />
       </div>
       <Header text={"statistics"} />
-      <Feedback good={good} neutral={neutral} bad={bad} />
+      <Feedback good={good} neutral={neutral} bad={bad} all={all}/>
     </div>
   )
 }
