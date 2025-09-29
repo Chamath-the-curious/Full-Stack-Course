@@ -1,9 +1,25 @@
 import { useState } from 'react'
 
-const Header = () => {
+const Header = (props) => {
   return (
     <div>
-      <h1>give feedback</h1>
+      <h1>{props.text}</h1>
+    </div>
+  )
+}
+
+const Button = (props) => {
+  return (
+    <button onClick={props.onClick}>{props.option}</button>
+  )
+}
+
+const Feedback = (props) => {
+  return (
+    <div>
+      <div>good {props.good}</div>
+      <div>neutral {props.neutral}</div>
+      <div>bad {props.bad}</div>
     </div>
   )
 }
@@ -15,7 +31,14 @@ const App = () => {
 
   return (
     <div>
-      <Header />
+      <Header text={"give feedback"}/>
+      <div>
+        <Button onClick={() => setGood(good + 1)} option={"good"} />
+        <Button onClick={() => setNeutral(neutral + 1)} option={"neutral"} />
+        <Button onClick={() => setBad(bad + 1)} option={"bad"} />
+      </div>
+      <Header text={"statistics"} />
+      <Feedback good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
