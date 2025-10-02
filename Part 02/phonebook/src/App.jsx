@@ -1,16 +1,18 @@
 import { useState } from 'react'
 import Person from './components/Person'
+import { nanoid } from 'nanoid'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', id: nanoid() },
   ]) 
   const [newName, setNewName] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
-      name: newName
+      name: newName,
+      id: nanoid()
     }
     setPersons(persons.concat(personObject))
     setNewName('')
@@ -34,7 +36,7 @@ const App = () => {
       <h2>Numbers</h2>
       <div>
           {persons.map(person => 
-            <Person person={person} key={() => persons.length}/>
+            <Person person={person} key={person.id}/>
           )}
       </div>
     </div>
