@@ -8,8 +8,16 @@ const App = () => {
   ]) 
   const [newName, setNewName] = useState('')
 
+  const exists = persons.some(person => person.name.toLowerCase() === newName.toLowerCase())
+
   const addPerson = (event) => {
     event.preventDefault()
+    
+    if(exists) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+
     const personObject = {
       name: newName,
       id: nanoid()
