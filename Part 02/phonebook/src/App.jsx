@@ -43,6 +43,19 @@ const App = () => {
       })
   }
 
+  const deletePerson = (id) => {
+    if (window.confirm("Delete contact?")) {
+      contactsService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .catch(error => {
+          alert(`Error deleting the person ${error}`)
+        })
+      }
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -76,7 +89,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons persons={visiblePersons} />
+      <Persons persons={visiblePersons} deletePerson={deletePerson}/>
     </div>
   )
 }
