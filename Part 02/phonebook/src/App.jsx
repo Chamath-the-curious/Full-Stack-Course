@@ -3,7 +3,7 @@ import PersonForm from './components/PersonForm'
 import { nanoid } from 'nanoid'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
-import axios from 'axios'
+import contactsService from './services/contacts'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -12,10 +12,10 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    contactsService
+      .getAll()
+      .then(initialContacts => {
+        setPersons(initialContacts)
       })
   }, [])
 
@@ -34,9 +34,13 @@ const App = () => {
       number: newNumber,
       id: nanoid()
     }
-    setPersons(persons.concat(personObject))
-    setNewName('')
-    setNewNumber('')
+    contactsService
+      .create(personObject)
+      .then(returnedContact => {
+        setPersons(persons.concat(returnedContact))
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const handleNameChange = (event) => {
