@@ -4,12 +4,14 @@ import { nanoid } from 'nanoid'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import contactsService from './services/contacts'
+import Notification from '../../../introdemo/src/components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     contactsService
@@ -20,6 +22,12 @@ const App = () => {
   }, [])
 
   const exists = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
+
+  const resetMessage = () => {
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -32,6 +40,8 @@ const App = () => {
           .update(exists.id, changedPerson)
           .then(returnedContact => {
             setPersons(persons.map(person => person.id === exists.id ? returnedContact : person))
+            setMessage(`${exists.name} has been updated`)
+            resetMessage()
           })
       } else {
           setNewName('')
@@ -49,6 +59,8 @@ const App = () => {
       .create(personObject)
       .then(returnedContact => {
         setPersons(persons.concat(returnedContact))
+        setMessage(`Added ${personObject.name}`)
+        resetMessage()
         setNewName('')
         setNewNumber('')
       })
@@ -87,6 +99,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={message} />
 
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
 
