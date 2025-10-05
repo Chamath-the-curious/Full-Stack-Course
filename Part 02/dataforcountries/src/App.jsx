@@ -6,6 +6,7 @@ import CountryList from './components/CountryList'
 const App = () => {
     const [countries, setCountires] = useState([])
     const [newFilter, setNewFilter] = useState('')
+    const [filteredCountries, setFilteredCountries] = useState([])
 
     useEffect(() => {
         CountryService
@@ -14,6 +15,10 @@ const App = () => {
                 setCountires(returnedData)
             })
     }, [])
+
+    useEffect(() => {
+        setFilteredCountries(getMatchingCountries)
+    }, [newFilter])
 
     const getMatchingCountries = () => {
         return countries.filter(country => 
@@ -24,10 +29,6 @@ const App = () => {
         const value = event.target.value
         setNewFilter(value)
     }
-
-    const filteredCountries = newFilter === ''
-        ? []
-        : getMatchingCountries()
 
     return (
         <div>
