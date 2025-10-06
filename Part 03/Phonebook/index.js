@@ -1,4 +1,4 @@
-import express, { response } from 'express'
+import express, { request, response } from 'express'
 
 const app = express()
 
@@ -46,6 +46,13 @@ app.get('/api/contacts/:id', (request, response) => {
     } else {
         response.status(404).end()
     }
+})
+
+app.delete('/api/contacts/:id', (request, response) => {
+    const id = request.params.id
+    contacts = contacts.filter(contact => contact.id !== id)
+
+    response.status(204).end()
 })
 
 const PORT = 3001
