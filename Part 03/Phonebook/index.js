@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { response } from 'express'
 
 const app = express()
 
@@ -26,6 +26,12 @@ let contacts = [
 ]
 
 app.use(express.json())
+
+app.get('/info', (request, response) => {
+    const requestTime = new Date().toString()
+    response.send(`<div>Phonebook has info for ${contacts.length} people</div><br>
+        <div>${requestTime}</div>`)
+})
 
 app.get('/api/contacts', (request, response) => {
     response.json(contacts)
