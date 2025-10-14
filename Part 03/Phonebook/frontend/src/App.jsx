@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import contactsService from './services/contacts'
-import Notification from '../../../introdemo/src/components/Notification'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
